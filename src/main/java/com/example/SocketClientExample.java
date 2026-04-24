@@ -1,6 +1,8 @@
 package com.example;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -33,11 +35,16 @@ public class SocketClientExample {
         ObjectOutputStream   oos = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
         JFrame chatBoot = new JFrame();
+        chatBoot.setSize(600, 800);
         JTextField input = new JTextField();
         JTextArea otherTexters = new JTextArea();
-        chatBoot.add(input);
-        chatBoot.add(otherTexters);
-
+        JPanel drawFace = new SimpleDraw();
+        chatBoot.add(input, BorderLayout.CENTER);
+        chatBoot.add(drawFace, BorderLayout.SOUTH);
+        
+        //chatBoot.add(new SimpleDraw());
+        chatBoot.add(otherTexters, BorderLayout.EAST);
+        chatBoot.setVisible(true);
         input.addActionListener(new ActionListener(){
 
             @Override
@@ -62,9 +69,10 @@ public class SocketClientExample {
                 }
                 catch (Exception e){
                     System.out.println("Error on connection with: "
-                            + clientAddress + ": " + e);
+                           + ": " + e);
             }
-
+            
+            chatBoot.setVisible(true);
         // while(!(line = input.nextLine()).equals("disconnect")){
         //     oos.writeObject(line);
         //     oos.flush();       
@@ -75,4 +83,5 @@ public class SocketClientExample {
         
         // System.out.println("connection closed!");
     }
+}
 }
